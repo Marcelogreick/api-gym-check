@@ -7,3 +7,11 @@ const envSchema = z.object({
 });
 
 const _env = envSchema.safeParse(process.env);
+
+if (!_env.success) {
+  console.error(_env.error.format());
+
+  throw new Error("Invalid env");
+}
+
+export const env = _env.data;
