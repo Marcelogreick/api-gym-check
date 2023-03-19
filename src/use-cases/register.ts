@@ -14,11 +14,7 @@ export class RegisterUseCase {
   async execute({ password, name, email }: RegisterUseCaseProps) {
     const password_hash = await hash(password, 6);
 
-    const userWithSameEmail = await prisma.user.findFirst({
-      where: {
-        email,
-      },
-    });
+    const userWithSameEmail = await this.usersRepository.findByEmail(email);
 
     if (userWithSameEmail) {
       throw new Error("User already exists");
